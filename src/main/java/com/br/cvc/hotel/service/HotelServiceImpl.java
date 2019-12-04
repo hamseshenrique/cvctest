@@ -27,11 +27,11 @@ public class HotelServiceImpl implements HotelService {
 	@Override
 	public List<Hotel> avail(final Integer cityCode, final String checkin,
 			final String checkout, final Integer qtdAdult, final Integer qtdChild) throws Exception{
-		
+		final Integer days = calcQtdDay(checkin,checkout);
 		final List<Hotel> hotels = brokerService.request(cityCode,BrokerEnum.AVAIL);
 		final List<Hotel> hotelsComissao = new ArrayList<Hotel>();
 		
-		hotelsComissao.addAll(calcComissao(hotels, calcQtdDay(checkin,checkout)));
+		hotelsComissao.addAll(calcComissao(hotels,days));
 				
 		return hotelsComissao;
 	}
@@ -40,10 +40,11 @@ public class HotelServiceImpl implements HotelService {
 	public List<Hotel> hotel(final Integer idHotel,final String checkin,
 			final String checkout,final Integer qtdAdult,final Integer qtdChild) throws Exception {
 		
+		final Integer days = calcQtdDay(checkin,checkout);
 		final List<Hotel> hotels =  brokerService.request(idHotel, BrokerEnum.HOTEL);
 		final List<Hotel> hotelsComissao = new ArrayList<Hotel>();
 
-		hotelsComissao.addAll(calcComissao(hotels,calcQtdDay(checkin,checkout)));
+		hotelsComissao.addAll(calcComissao(hotels,days));
 		
 		return hotelsComissao;
 	}
